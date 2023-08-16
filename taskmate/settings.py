@@ -12,9 +12,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DJANGO_DEBUG")
+# DEBUG = env("DJANGO_DEBUG")
 
-ALLOWED_HOSTS = ["*"]
+DEBUG = 'RENDER' not in os.environ
+
+#ALLOWED_HOSTS = ["localhost","127.0.0.1", "taskmate-ul.onrender.com"]
+ALLOWED_HOSTS = []
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+CSRF_TRUSTED_ORIGINS = ["https://taskmate-ul.onrender.com"]
 
 
 # Application definition
@@ -115,13 +123,13 @@ USE_TZ = False
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    ]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'images')
 
