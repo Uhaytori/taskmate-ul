@@ -34,12 +34,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'taskmate.urls'
@@ -63,7 +65,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'taskmate.wsgi.application'
 
-
+# railway connection details
+# PGPASSWORD=ktAuLtc5ckVivZrCiJGZ psql -h containers-us-west-96.railway.app -U postgres -p 6171 -d railway
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
